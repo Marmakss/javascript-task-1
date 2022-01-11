@@ -1,7 +1,14 @@
 
 'use strict';
 /* eslint max-len: ["error", { "code": 200 }]*/
-
+/* eslint max-depth: [2, 10]*/
+/* eslint-disable complexity */
+// eslint-disable-next-line no-console
+console.log(ticTacToeProblem([
+    ['x', 'o', 'o'],
+    ['o', 'o', 'x'],
+    ['x', 'o', 'x']
+]));
 
 /**
  * Складывает два целых числа
@@ -131,10 +138,10 @@ function matrixProblem(matrix) {
  * @returns {String} Число n в системе счисления targetNs
  */
 function numberSystemProblem(n, targetNs) {
-    // Ваше решение !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // if (typeof(n) !== 'number') {
-    //     throw new TypeError('В качестве положения в ряде передано не число');
-    // }
+    // Ваше решение 
+    if (typeof(n) !== 'number' || typeof(targetNs) !== 'number') {
+        throw new TypeError('В аргументы переданы не числа');
+    }
     if (targetNs < 2 || targetNs > 36) {
         throw new RangeError('Cистема счисления выходит за пределы значений [2, 36]');
     }
@@ -143,34 +150,77 @@ function numberSystemProblem(n, targetNs) {
     return num;
 }
 
-// /**
-//  * Проверяет соответствие телефонного номера формату
-//  * @param {String} phoneNumber Номер телефона в формате '8–800–xxx–xx–xx'
-//  * @returns {Boolean} Если соответствует формату, то true, а иначе false
-//  */
-// function phoneProblem(phoneNumber) {
-//     // Ваше решение
-// }
+/**
+ * Проверяет соответствие телефонного номера формату
+ * @param {String} phoneNumber Номер телефона в формате '8–800–xxx–xx–xx'
+ * @returns {Boolean} Если соответствует формату, то true, а иначе false
+ */
+function phoneProblem(phoneNumber) {
+    // Ваше решение
+    if (phoneNumber.substr(0, 6) === '8-800-' && phoneNumber[9] === '-' && phoneNumber[12] === '-') {
+        return true;
+    }
 
-// /**
-//  * Определяет количество улыбающихся смайликов в строке
-//  * @param {String} text Строка в которой производится поиск
-//  * @throws {TypeError} Когда в качестве аргумента передаётся не строка
-//  * @returns {Number} Количество улыбающихся смайликов в строке
-//  */
-// function smilesProblem(text) {
-//     // Ваше решение
-// }
+    return false;
+}
 
-// /**
-//  * Определяет победителя в игре "Крестики-нолики"
-//  * Тестами гарантируются корректные аргументы.
-//  * @param {(('x' | 'o')[])[]} field Игровое поле 3x3 завершённой игры
-//  * @returns {'x' | 'o' | 'draw'} Результат игры
-//  */
-// function ticTacToeProblem(field) {
-//     // Ваше решение
-// }
+/**
+ * Определяет количество улыбающихся смайликов в строке
+ * @param {String} text Строка в которой производится поиск
+ * @throws {TypeError} Когда в качестве аргумента передаётся не строка
+ * @returns {Number} Количество улыбающихся смайликов в строке
+ */
+function smilesProblem(text) {
+    // Ваше решение
+    if (typeof(text) !== 'string') {
+        throw new TypeError('В качестве аргумента передаётся не строка');
+    }
+    var quantity = text.split(':-)').length + text.split('(-:').length - 2;
+
+    return quantity;
+}
+
+/**
+ * Определяет победителя в игре "Крестики-нолики"
+ * Тестами гарантируются корректные аргументы.
+ * @param {(('x' | 'o')[])[]} field Игровое поле 3x3 завершённой игры
+ * @returns {'x' | 'o' | 'draw'} Результат игры
+ */
+function ticTacToeProblem(field) {
+    // Ваше решение
+
+    if (check(field, 'x') || check(matrixProblem(field), 'x')) {
+        return 'x';
+    }
+    if (check(field, 'o') || check(matrixProblem(field), 'o')) {
+        return 'o';
+    }
+
+    return 'draw';
+}
+//  Проверка игрового поля на победу по горизонтали или диагонали
+function check(matrix, pretendent) {
+    let horWin = 0;
+    let diagWin = 0;
+    for (var i = 0; i < 3; i++) {
+        horWin = 0;
+        for (var j = 0; j < 3; j++) {
+            if (matrix[i][j] === pretendent) {
+                horWin = horWin + 1;
+            }
+            if (matrix[i][i] === pretendent && i === j) {
+                diagWin = diagWin + 1;
+            }
+            // eslint-disable-next-line no-console
+            // console.log('i= ' + i + ' j= ' + j + ' pretendent = ' + pretendent + ' fact = ' + matrix[i][j] + ' horWin = ' + horWin + ' diagWin = ' + diagWin);
+            if (horWin === 3 || diagWin === 3) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
 
 module.exports = {
     abProblem,
@@ -178,5 +228,8 @@ module.exports = {
     colorsProblem,
     fibonacciProblem,
     matrixProblem,
-    numberSystemProblem
+    numberSystemProblem,
+    phoneProblem,
+    smilesProblem,
+    ticTacToeProblem
 };
