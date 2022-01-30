@@ -4,7 +4,7 @@
 /* eslint-disable complexity */
 
 // eslint-disable-next-line no-console
-console.log(phoneProblem('8–800–123–12–12'));
+console.log(phoneProblem('8-800-123-12-12'));
 
 /**
  * Складывает два целых числа
@@ -150,7 +150,7 @@ function numberSystemProblem(n, targetNs) {
  */
 function phoneProblem(phoneNumber) {
     // Ваше решение
-    let reg = /^8.800.\d{3}.\d{2}.\d{2}$/;
+    let reg = /^8-800-\d{3}-\d{2}-\d{2}$/;
 
     return reg.test(phoneNumber);
 }
