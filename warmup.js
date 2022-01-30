@@ -1,14 +1,10 @@
-
 'use strict';
 /* eslint max-len: ["error", { "code": 200 }]*/
 /* eslint max-depth: [2, 10]*/
 /* eslint-disable complexity */
+
 // eslint-disable-next-line no-console
-console.log(ticTacToeProblem([
-    ['x', 'o', 'o'],
-    ['o', 'o', 'x'],
-    ['x', 'o', 'x']
-]));
+console.log(phoneProblem('8–800–123–12–12'));
 
 /**
  * Складывает два целых числа
@@ -18,13 +14,11 @@ console.log(ticTacToeProblem([
  * @returns {Number} Сумма аргументов
  */
 function abProblem(a, b) {
-    // Ваше решение
     if (typeof(a) !== 'number' || typeof(b) !== 'number') {
         throw new TypeError('В аргументы переданы не числа');
     }
 
     return a + b;
-
 }
 
 /**
@@ -35,18 +29,14 @@ function abProblem(a, b) {
  * @returns {Number} Век, полученный из года
  */
 function centuryByYearProblem(year) {
-    // Ваше решение
-
     if (typeof(year) !== 'number') {
         throw new TypeError('В качестве года передано не число');
     }
-
     if (typeof(year) === 'number' && year < 0) {
         throw new RangeError('Отрицательное число');
     }
 
     return Math.floor(year / 100) + 1;
-
 }
 
 
@@ -58,26 +48,27 @@ function centuryByYearProblem(year) {
  * @returns {String} Цвет в формате RGB, например, '(255, 255, 255)'
  */
 function colorsProblem(hexColor) {
-    // Ваше решение !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     if (typeof(hexColor) !== 'string') {
         throw new TypeError('Цвет передан не строкой');
     }
     if (hexColor.substring(0, 1) === '#') {
         hexColor = hexColor.substring(1);
     }
-    // if (typeof(year) === 'number' && year < 0) {
-    //     throw new RangeError('значения цвета выходят за пределы допустимых');
-    // }  
-
-    var rgbColor = [0, 0, 0];
+    if (hexColor.length !== 6) {
+        throw new RangeError('Значения цвета выходят за пределы допустимых');
+    }
+    for (let i = 0; i < hexColor.length; i++) {
+        if ((((hexColor[i] >= 'A' && hexColor[i] <= 'F') || (hexColor[i] >= '0' && hexColor[i] <= '9')) === false)) {
+            throw new RangeError('Значения цвета выходят за пределы допустимых');
+        }
+    }
+    let rgbColor = [0, 0, 0];
     rgbColor[0] = parseInt(hexColor.substr(0, 2), 16);
     rgbColor[1] = parseInt(hexColor.substr(2, 2), 16);
     rgbColor[2] = parseInt(hexColor.substr(4, 2), 16);
-    var rgbColorString = (`(${rgbColor[0]}, ${rgbColor[1]}, ${rgbColor[2]})`);
-    // var rgbColorString = ('(' + rgbColor[0] + ', ' + rgbColor[1] + ', ' + rgbColor[2] + ')');
+    let rgbColorString = (`(${rgbColor[0]}, ${rgbColor[1]}, ${rgbColor[2]})`);
 
     return rgbColorString;
-    // return ('(255, 255, 255)');
 }
 
 /**
@@ -88,7 +79,6 @@ function colorsProblem(hexColor) {
  * @returns {Number} Число Фибоначчи, находящееся на n-ой позиции
  */
 function fibonacciProblem(n) {
-    // Ваше решение
     if (typeof(n) !== 'number') {
         throw new TypeError('В качестве положения в ряде передано не число');
     }
@@ -108,25 +98,28 @@ function fibonacciProblem(n) {
 /**
  * Транспонирует матрицу
  * @param {(Any[])[]} matrix Матрица размерности MxN
- * @throws {TypeError} Когда в функцию передаётся не двумерный массив
+ * @throws {TypeError} Когда в в функцию передаётся не двумерный массив
  * @returns {(Any[])[]} Транспонированная матрица размера NxM
  */
 function matrixProblem(matrix) {
-    // Ваше решение !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
     var newMatrix = [];
-    for (var a = 0; a < matrix[1].length; a++) {
+    for (let i = 0; i < matrix[1].length; i++) {
+        for (let j = 0; j < matrix.length; j++) {
+            if ((Array.isArray(matrix) && Array.isArray(matrix[i]) && Array.isArray(matrix[i][j]) === false) === false) {
+                throw new TypeError('В функцию передаётся не двумерный массив');
+            }
+        }
+    }
+    for (let i = 0; i < matrix[1].length; i++) {
         newMatrix.push([]);
     }
-    for (var i = 0; i < matrix[1].length; i++) {
-        for (var j = 0; j < matrix.length; j++) {
+    for (let i = 0; i < matrix[1].length; i++) {
+        for (let j = 0; j < matrix.length; j++) {
             newMatrix[i][j] = matrix[j][i];
         }
     }
 
     return newMatrix;
-
 }
 
 /**
@@ -157,11 +150,9 @@ function numberSystemProblem(n, targetNs) {
  */
 function phoneProblem(phoneNumber) {
     // Ваше решение
-    if (phoneNumber.substr(0, 6) === '8-800-' && phoneNumber[9] === '-' && phoneNumber[12] === '-') {
-        return true;
-    }
+    let reg = /^8.800.\d{3}.\d{2}.\d{2}$/;
 
-    return false;
+    return reg.test(phoneNumber);
 }
 
 /**
@@ -187,8 +178,6 @@ function smilesProblem(text) {
  * @returns {'x' | 'o' | 'draw'} Результат игры
  */
 function ticTacToeProblem(field) {
-    // Ваше решение
-
     if (check(field, 'x') || check(matrixProblem(field), 'x')) {
         return 'x';
     }
@@ -198,21 +187,20 @@ function ticTacToeProblem(field) {
 
     return 'draw';
 }
+
 //  Проверка игрового поля на победу по горизонтали или диагонали
 function check(matrix, pretendent) {
     let horWin = 0;
     let diagWin = 0;
-    for (var i = 0; i < 3; i++) {
+    for (let i = 0; i < 3; i++) {
         horWin = 0;
-        for (var j = 0; j < 3; j++) {
+        for (let j = 0; j < 3; j++) {
             if (matrix[i][j] === pretendent) {
                 horWin = horWin + 1;
             }
             if (matrix[i][i] === pretendent && i === j) {
                 diagWin = diagWin + 1;
             }
-            // eslint-disable-next-line no-console
-            // console.log('i= ' + i + ' j= ' + j + ' pretendent = ' + pretendent + ' fact = ' + matrix[i][j] + ' horWin = ' + horWin + ' diagWin = ' + diagWin);
             if (horWin === 3 || diagWin === 3) {
                 return true;
             }
