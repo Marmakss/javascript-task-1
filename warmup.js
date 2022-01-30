@@ -3,9 +3,6 @@
 /* eslint max-depth: [2, 10]*/
 /* eslint-disable complexity */
 
-// eslint-disable-next-line no-console
-console.log(phoneProblem('8-800-123-12-12'));
-
 /**
  * Складывает два целых числа
  * @param {Number} a Первое целое
