@@ -1,7 +1,4 @@
 'use strict';
-/* eslint max-len: ["error", { "code": 200 }]*/
-/* eslint max-depth: [2, 10]*/
-/* eslint-disable complexity */
 
 /**
  * Складывает два целых числа
@@ -48,24 +45,18 @@ function colorsProblem(hexColor) {
     if (typeof(hexColor) !== 'string') {
         throw new TypeError('Цвет передан не строкой');
     }
-    if (hexColor.substring(0, 1) === '#') {
-        hexColor = hexColor.substring(1);
-    }
-    if (hexColor.length !== 6) {
+    // eslint-disable-next-line no-console
+    let regColor = /^#[A-Fa-f0-9]{6}$/;
+    if (!regColor.test(hexColor)) {
         throw new RangeError('Значения цвета выходят за пределы допустимых');
     }
-    for (let i = 0; i < hexColor.length; i++) {
-        if ((((hexColor[i] >= 'A' && hexColor[i] <= 'F') || (hexColor[i] >= '0' && hexColor[i] <= '9')) === false)) {
-            throw new RangeError('Значения цвета выходят за пределы допустимых');
-        }
-    }
-    let rgbColor = [0, 0, 0];
-    rgbColor[0] = parseInt(hexColor.substr(0, 2), 16);
-    rgbColor[1] = parseInt(hexColor.substr(2, 2), 16);
-    rgbColor[2] = parseInt(hexColor.substr(4, 2), 16);
-    let rgbColorString = (`(${rgbColor[0]}, ${rgbColor[1]}, ${rgbColor[2]})`);
 
-    return rgbColorString;
+    hexColor = hexColor.substring(1);
+    let rColor = parseInt(hexColor.substr(0, 2), 16);
+    let gColor = parseInt(hexColor.substr(2, 2), 16);
+    let bColor = parseInt(hexColor.substr(4, 2), 16);
+
+    return (`(${rColor}, ${gColor}, ${bColor})`);
 }
 
 /**
@@ -98,23 +89,15 @@ function fibonacciProblem(n) {
  * @throws {TypeError} Когда в в функцию передаётся не двумерный массив
  * @returns {(Any[])[]} Транспонированная матрица размера NxM
  */
+
 function matrixProblem(matrix) {
-    var newMatrix = [];
-    for (let i = 0; i < matrix[1].length; i++) {
-        for (let j = 0; j < matrix.length; j++) {
-            if ((Array.isArray(matrix) && Array.isArray(matrix[i]) && Array.isArray(matrix[i][j]) === false) === false) {
-                throw new TypeError('В функцию передаётся не двумерный массив');
-            }
+    matrix.forEach((fElement, i) => fElement.forEach(function (sElement, j) {
+        if (!Array.isArray(matrix) && !Array.isArray(matrix[i]) && Array.isArray(matrix[i][j])) {
+            throw new TypeError('В функцию передаётся не двумерный массив');
         }
-    }
-    for (let i = 0; i < matrix[1].length; i++) {
-        newMatrix.push([]);
-    }
-    for (let i = 0; i < matrix[1].length; i++) {
-        for (let j = 0; j < matrix.length; j++) {
-            newMatrix[i][j] = matrix[j][i];
-        }
-    }
+    }));
+
+    let newMatrix = matrix.map((fElement, i) => fElement.map((sElement, j) => matrix[j][i]));
 
     return newMatrix;
 }
@@ -147,6 +130,9 @@ function numberSystemProblem(n, targetNs) {
  */
 function phoneProblem(phoneNumber) {
     // Ваше решение
+    if (typeof(phoneNumber) !== 'string') {
+        throw new TypeError('Телефонный номер задан не строкой');
+    }
     let reg = /^8-800-\d{3}-\d{2}-\d{2}$/;
 
     return reg.test(phoneNumber);
@@ -175,37 +161,29 @@ function smilesProblem(text) {
  * @returns {'x' | 'o' | 'draw'} Результат игры
  */
 function ticTacToeProblem(field) {
-    if (check(field, 'x') || check(matrixProblem(field), 'x')) {
-        return 'x';
+
+    for (let i = 0; i < 3; i++) {
+        // Horizontal win
+        if (field[i][0] === field[i][1] && field[i][0] === field[i][2]) {
+            return field[i][0];
+        }
+        // Vertical Win
+        if (field[0][i] === field[1][i] && field[0][i] === field[2][i]) {
+            return field[0][i];
+        }
     }
-    if (check(field, 'o') || check(matrixProblem(field), 'o')) {
-        return 'o';
+    // First diag win
+    if (field[0][0] === field[1][1] && field[0][0] === field[2][2]) {
+        return field[0][0];
+    }
+    // Second diag win
+    if (field[0][2] === field[1][1] && field[0][2] === field[2][0]) {
+        return field[0][2];
     }
 
     return 'draw';
 }
 
-//  Проверка игрового поля на победу по горизонтали или диагонали
-function check(matrix, pretendent) {
-    let horWin = 0;
-    let diagWin = 0;
-    for (let i = 0; i < 3; i++) {
-        horWin = 0;
-        for (let j = 0; j < 3; j++) {
-            if (matrix[i][j] === pretendent) {
-                horWin = horWin + 1;
-            }
-            if (matrix[i][i] === pretendent && i === j) {
-                diagWin = diagWin + 1;
-            }
-            if (horWin === 3 || diagWin === 3) {
-                return true;
-            }
-        }
-    }
-
-    return false;
-}
 
 module.exports = {
     abProblem,
